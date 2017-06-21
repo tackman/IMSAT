@@ -32,10 +32,9 @@ def _pair(x):
 
 class Deconvolution2DFunction(deconvolution_2d.Deconvolution2DFunction):
 
-	def __init__(self, stride=1, pad=0, outsize=None, use_cudnn=True):
+	def __init__(self, stride=1, pad=0, outsize=None):
 		self.sy, self.sx = _pair(stride)
 		self.ph, self.pw = _pair(pad)
-		self.use_cudnn = use_cudnn
 		self.outh, self.outw = (None, None) if outsize is None else outsize
 
 	def check_type_forward(self, in_types):
@@ -137,8 +136,8 @@ class Deconvolution2DFunction(deconvolution_2d.Deconvolution2DFunction):
 			return gx, gV, gg, gb
 
 
-def deconvolution_2d(x, V, g, b=None, stride=1, pad=0, outsize=None, use_cudnn=True):
-	func = Deconvolution2DFunction(stride, pad, outsize, use_cudnn)
+def deconvolution_2d(x, V, g, b=None, stride=1, pad=0, outsize=None):
+	func = Deconvolution2DFunction(stride, pad, outsize)
 	if b is None:
 		return func(x, V, g)
 	else:
@@ -147,13 +146,12 @@ def deconvolution_2d(x, V, g, b=None, stride=1, pad=0, outsize=None, use_cudnn=T
 class Deconvolution2D(link.Link):
 
 	def __init__(self, in_channels, out_channels, ksize, stride=1, pad=0,
-				 wscale=1, bias=0, nobias=False, outsize=None, use_cudnn=True,
+				 wscale=1, bias=0, nobias=False, outsize=None, 
 				 initialV=None, dtype=np.float32):
 		kh, kw = _pair(ksize)
 		self.stride = _pair(stride)
 		self.pad = _pair(pad)
 		self.outsize = (None, None) if outsize is None else outsize
-		self.use_cudnn = use_cudnn
 		self.dtype = dtype
 		self.nobias = nobias
 		self.out_channels = out_channels
@@ -197,10 +195,10 @@ class Deconvolution2D(link.Link):
 
 		if hasattr(self, "b") == False or hasattr(self, "g") == False:
 			xp = cuda.get_array_module(x.data)
-			t = deconvolution_2d(x, self.V, Variable(xp.full((1, self.out_channels, 1, 1), 1.0).astype(x.dtype)), None, self.stride, self.pad, self.outsize, self.use_cudnn)	# compute output with g = 1 and without bias
+			t = deconvolution_2d(x, self.V, Variable(xp.full((1, self.out_channels, 1, 1), 1.0).astype(x.dtype)), None, self.stride, self.pad, self.outsize)	# compute output with g = 1 and without bias
 			self._initialize_params(t.data)
 			return (t - self.mean_t) / self.std_t
 
 		return deconvolution_2d(
 			x, self.V, self.g, self.b, self.stride, self.pad,
-			self.outsize, self.use_cudnn)
+			self.outsize)

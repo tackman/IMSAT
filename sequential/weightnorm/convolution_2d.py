@@ -120,8 +120,8 @@ class Convolution2DFunction(convolution_2d.Convolution2DFunction):
 		else:
 			return gx, gV, gg, gb
 
-def convolution_2d(x, V, g, b=None, stride=1, pad=0, use_cudnn=True, cover_all=False):
-	func = Convolution2DFunction(stride, pad, use_cudnn, cover_all)
+def convolution_2d(x, V, g, b=None, stride=1, pad=0, cover_all=False):
+	func = Convolution2DFunction(stride, pad, cover_all)
 	if b is None:
 		return func(x, V, g)
 	else:
@@ -130,12 +130,11 @@ def convolution_2d(x, V, g, b=None, stride=1, pad=0, use_cudnn=True, cover_all=F
 class Convolution2D(link.Link):
 
 	def __init__(self, in_channels, out_channels, ksize, 
-			stride=1, pad=0, wscale=1, bias=0, nobias=False, use_cudnn=True, initialV=None, dtype=np.float32):
+			stride=1, pad=0, wscale=1, bias=0, nobias=False, initialV=None, dtype=np.float32):
 		super(Convolution2D, self).__init__()
 		self.ksize = ksize
 		self.stride = _pair(stride)
 		self.pad = _pair(pad)
-		self.use_cudnn = use_cudnn
 		self.out_channels = out_channels
 		self.in_channels = in_channels
 		self.dtype = dtype
@@ -189,8 +188,8 @@ class Convolution2D(link.Link):
 
 		if hasattr(self, "b") == False or hasattr(self, "g") == False:
 			xp = cuda.get_array_module(x.data)
-			t = convolution_2d(x, self.V, Variable(xp.full((self.out_channels, 1, 1, 1), 1.0).astype(x.dtype)), None, self.stride, self.pad, self.use_cudnn)	# compute output with g = 1 and without bias
+			t = convolution_2d(x, self.V, Variable(xp.full((self.out_channels, 1, 1, 1), 1.0).astype(x.dtype)), None, self.stride, self.pad)	# compute output with g = 1 and without bias
 			self._initialize_params(t.data)
 			return (t - self.mean_t) / self.std_t
 
-		return convolution_2d(x, self.V, self.g, self.b, self.stride, self.pad, self.use_cudnn)
+		return convolution_2d(x, self.V, self.g, self.b, self.stride, self.pad)

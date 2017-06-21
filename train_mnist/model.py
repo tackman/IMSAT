@@ -44,10 +44,10 @@ else:
 	model = Sequential()
 	model.add(Linear(None, 1200))
 	model.add(Activation(config.nonlinearity))
-	model.add(BatchNormalization(1200, use_cudnn=False))
+	model.add(BatchNormalization(1200))
 	model.add(Linear(None, 1200))
 	model.add(Activation(config.nonlinearity))
-	model.add(BatchNormalization(1200, use_cudnn=False))
+	model.add(BatchNormalization(1200))
 	model.add(Linear(None, config.num_clusters))
 
 	params = {
