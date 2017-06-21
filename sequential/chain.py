@@ -4,10 +4,10 @@ import chainer
 from chainer import optimizers, serializers, Variable
 from chainer import cuda
 from chainer import optimizer
-import sequential
-import links
-import hooks
-import util
+from . import sequential
+from . import links
+from . import hooks
+from . import util
 
 class Eve(optimizer.GradientMethod):
 	def __init__(self, alpha=0.001, beta1=0.9, beta2=0.999, beta3=0.999, eps=1e-8, lower_threshold=0.1, upper_threshold=10):
@@ -124,7 +124,7 @@ class Chain(chainer.Chain):
 
 	def load(self, filename):
 		if os.path.isfile(filename):
-			print "loading {} ...".format(filename)
+			print("loading {} ...".format(filename))
 			serializers.load_hdf5(filename, self)
 		else:
 			pass

@@ -1,9 +1,9 @@
-import links
-import layers
-import functions
-import util
-import chain
-from sequential import *
+from . import links
+from . import layers
+from . import functions
+from . import util
+from . import chain
+from .sequential import *
 
 def from_json(str):
 	seq = Sequential()

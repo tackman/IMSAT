@@ -35,7 +35,7 @@ def create_semisupervised(images, labels, num_labeled_data=10):
 			return True
 		return False
 
-	for n in xrange(len(images)):
+	for n in range(len(images)):
 		index = indices[n]
 		if check(index):
 			indices_for_label[labels[index]].append(index)

@@ -10,12 +10,12 @@ class Progress(object):
 		if self.start_time is None:
 			self.start_time = current
 		self.epoch_start_time = current
-		print "Epoch {}/{}".format(current_epoch, total_epoch)
+		print("Epoch {}/{}".format(current_epoch, total_epoch))
 
 	def get_progress_bar(self, current_step, total_steps, num_segments=30):
 		str = "["
 		base = total_steps / float(num_segments)
-		for seg in xrange(num_segments):
+		for seg in range(num_segments):
 			if base * (seg + 1) < current_step:
 				str += "="
 			else:
@@ -33,7 +33,7 @@ class Progress(object):
 
 	def get_args(self, args):
 		str = ""
-		for key, value in args.iteritems():
+		for key, value in args.items():
 			if isinstance(value, float):
 				if abs(value) < 0.001:
 					str += " - {}: {:.3e}".format(key, value)
@@ -53,7 +53,7 @@ class Progress(object):
 		args = self.get_args(args)
 		if current_step == total_steps:
 			sys.stdout.write("\r")
-			print "{} - {}m{}".format(prefix, self.get_elapsed_minute(), args)
+			print("{} - {}m{}".format(prefix, self.get_elapsed_minute(), args))
 		else:
 			sys.stdout.write("\r{} - {}m{}".format(prefix, self.get_elapsed_minute(), args))
 			sys.stdout.flush()

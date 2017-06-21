@@ -1,8 +1,8 @@
 import copy, json, types
 import chainer
-import layers
-import functions
-from util import get_weight_initializer
+from . import layers
+from . import functions
+from .util import get_weight_initializer
 
 class Sequential(object):
 	def __init__(self, weight_initializer=None, weight_std=None):
@@ -47,7 +47,7 @@ class Sequential(object):
 	def dict_to_layer_init_args(self, dictionary):
 		args = copy.deepcopy(dictionary)
 		remove_keys = []
-		for key, value in args.iteritems():
+		for key, value in args.items():
 			if key[0] == "_":
 				remove_keys.append(key)
 		for key in remove_keys:
@@ -74,7 +74,7 @@ class Sequential(object):
 				layer._initialW_mean = get_weight_initializer(self.weight_initializer, self.weight_std)
 				layer._initialW_ln_var = get_weight_initializer(self.weight_initializer, self.weight_std)
 			elif isinstance(layer, layers.Merge):
-				for i in xrange(layer.num_inputs):
+				for i in range(layer.num_inputs):
 					setattr(layer, "_initialW_%d" % i, get_weight_initializer(self.weight_initializer, self.weight_std))
 			else:
 				layer._initialW = get_weight_initializer(self.weight_initializer, self.weight_std)
@@ -113,7 +113,7 @@ class Sequential(object):
 			dictionary = {}
 			if isinstance(layer, Residual):
 				dictionary["_residual"] = True
-			for key, value in config.iteritems():
+			for key, value in config.items():
 				if isinstance(value, (int, float, str, bool, type(None), tuple, list, dict)):
 					dictionary[key] = value
 			layers.append(dictionary)

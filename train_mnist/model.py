@@ -19,7 +19,7 @@ except:
 sequence_filename = args.model_dir + "/classifier.json"
 
 if os.path.isfile(sequence_filename):
-	print "loading", sequence_filename
+	print("loading", sequence_filename)
 	with open(sequence_filename, "r") as f:
 		try:
 			params = json.load(f)

@@ -8,12 +8,12 @@ class Function(object):
 		raise NotImplementedError()
 
 	def from_dict(self, dict):
-		for attr, value in dict.iteritems():
+		for attr, value in dict.items():
 			setattr(self, attr, value)
 
 	def to_dict(self):
 		dict = {}
-		for attr, value in self.__dict__.iteritems():
+		for attr, value in self.__dict__.items():
 			dict[attr] = value
 		return dict
 

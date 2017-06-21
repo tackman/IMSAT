@@ -2,11 +2,11 @@ import numpy as np
 from chainer import Variable
 from chainer import functions as F
 from chainer import links as L
-from sequential import Sequential, Residual
-import layers
-import functions
-import util
-from chain import Chain
+from .sequential import Sequential, Residual
+from . import layers
+from . import functions
+from . import util
+from .chain import Chain
 
 # residual test
 seq = Sequential(weight_std=0.001)
@@ -26,15 +26,15 @@ seq.build("Normal", 1)
 x = np.random.normal(scale=1, size=(2, 28*28)).astype(np.float32)
 x = Variable(x)
 y = seq(x)
-print y.data.shape
+print(y.data.shape)
 # check
 for link in seq.links:
 	if isinstance(link, L.Linear):
-		print np.std(link.W.data), np.mean(link.W.data)
+		print(np.std(link.W.data), np.mean(link.W.data))
 	if isinstance(link, Residual):
 		for _link in link.links:
 			if isinstance(_link, L.Linear):
-				print np.std(_link.W.data), np.mean(_link.W.data)
+				print(np.std(_link.W.data), np.mean(_link.W.data))
 
 # residual test 2
 seq = Sequential()
@@ -64,7 +64,7 @@ seq.build("Normal", 1)
 x = np.random.normal(scale=1, size=(2, 28*28)).astype(np.float32)
 x = Variable(x)
 y = seq(x)
-print y.data.shape
+print(y.data.shape)
 
 
 # JSON test
@@ -112,7 +112,7 @@ seq.add(layers.Linear(500, 10))
 seq.build("Normal", 1.0)
 
 y = seq(x)
-print y.data.shape
+print(y.data.shape)
 
 # Conv test
 x = np.random.normal(scale=1, size=(2, 3, 96, 96)).astype(np.float32)
@@ -139,7 +139,7 @@ seq.add(functions.softmax())
 seq.build("GlorotNormal", 0.5)
 
 y = seq(x)
-print y.data.shape
+print(y.data.shape)
 
 # Deconv test
 x = np.random.normal(scale=1, size=(2, 100)).astype(np.float32)
@@ -168,7 +168,7 @@ seq.from_json(json_str)
 seq.build("HeNormal", 0.1)
 
 y = seq(x)
-print y.data.shape
+print(y.data.shape)
 
 # train test
 x = np.random.normal(scale=1, size=(128, 28*28)).astype(np.float32)
@@ -195,27 +195,27 @@ chain.setup_optimizers("adam", 0.01, momentum=0.9, weight_decay=0.000001, gradie
 # check
 for link in seq.links:
 	if isinstance(link, L.Linear):
-		print np.std(link.W.data), np.mean(link.W.data)
+		print(np.std(link.W.data), np.mean(link.W.data))
 	if isinstance(link, Residual):
 		for _link in link.links:
 			if isinstance(_link, L.Linear):
-				print np.std(_link.W.data), np.mean(_link.W.data)
+				print(np.std(_link.W.data), np.mean(_link.W.data))
 
-for i in xrange(1000):
+for i in range(1000):
 	y = chain(x)
 	loss = F.mean_squared_error(x, y)
 	chain.backprop(loss)
 	if i % 100 == 0:
-		print float(loss.data)
+		print(float(loss.data))
 
 # check
 for link in seq.links:
 	if isinstance(link, L.Linear):
-		print np.std(link.W.data), np.mean(link.W.data)
+		print(np.std(link.W.data), np.mean(link.W.data))
 	if isinstance(link, Residual):
 		for _link in link.links:
 			if isinstance(_link, L.Linear):
-				print np.std(_link.W.data), np.mean(_link.W.data)
+				print(np.std(_link.W.data), np.mean(_link.W.data))
 chain.save("model")
 
 # weight test
@@ -237,13 +237,13 @@ chain.add_sequence(seq2, name="seq2")
 chain.add_sequence(seq3, name="seq3")
 
 for link in chain.seq1.links:
-	print np.std(link.W.data), np.mean(link.W.data)
+	print(np.std(link.W.data), np.mean(link.W.data))
 
 for link in chain.seq2.links:
-	print np.std(link.W.data), np.mean(link.W.data)
+	print(np.std(link.W.data), np.mean(link.W.data))
 
 for link in chain.seq3.links:
-	print np.std(link.W.data), np.mean(link.W.data)
+	print(np.std(link.W.data), np.mean(link.W.data))
 
 
 seq1 = Sequential(weight_std=1.0)
@@ -262,10 +262,10 @@ chain.add_sequence(seq3, name="seq3")
 
 # check
 for link in chain.seq1.links:
-	print np.std(link.W.data), np.mean(link.W.data)
+	print(np.std(link.W.data), np.mean(link.W.data))
 
 for link in chain.seq2.links:
-	print np.std(link.W.data), np.mean(link.W.data)
+	print(np.std(link.W.data), np.mean(link.W.data))
 
 for link in chain.seq3.links:
-	print np.std(link.W.data), np.mean(link.W.data)
+	print(np.std(link.W.data), np.mean(link.W.data))

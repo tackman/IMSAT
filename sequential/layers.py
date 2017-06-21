@@ -1,8 +1,8 @@
 import numpy
 import chainer
-import weightnorm
-import links
-import util
+from . import weightnorm
+from . import links
+from . import util
 from chainer import functions as F
 
 class Layer(object):
@@ -14,18 +14,18 @@ class Layer(object):
 		return False
 
 	def from_dict(self, dict):
-		for attr, value in dict.iteritems():
+		for attr, value in dict.items():
 			setattr(self, attr, value)
 
 	def to_dict(self):
 		dict = {}
-		for attr, value in self.__dict__.iteritems():
+		for attr, value in self.__dict__.items():
 			dict[attr] = value
 		return dict
 
 	def to_chainer_args(self):
 		dict = {}
-		for attr, value in self.__dict__.iteritems():
+		for attr, value in self.__dict__.items():
 			if attr[0] == "_":
 				pass
 			else:
@@ -36,9 +36,9 @@ class Layer(object):
 		raise NotImplementedError()
 
 	def dump(self):
-		print "layer: {}".format(self._layer)
-		for attr, value in self.__dict__.iteritems():
-			print "	{}: {}".format(attr, value)
+		print("layer: {}".format(self._layer))
+		for attr, value in self.__dict__.items():
+			print("	{}: {}".format(attr, value))
 
 class Convolution2D(Layer):
 	def __init__(self, in_channels, out_channels, ksize, stride=1, pad=0, bias=0, nobias=False, use_cudnn=True, use_weightnorm=False):
@@ -167,7 +167,7 @@ class Merge(Layer):
 
 	def to_link(self):
 		link = links.Merge()
-		for i in xrange(self.num_inputs):
+		for i in range(self.num_inputs):
 			args = self.to_chainer_args()
 			del args["use_weightnorm"]
 			del args["num_inputs"]

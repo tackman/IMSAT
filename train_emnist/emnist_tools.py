@@ -53,11 +53,11 @@ def extract_bitmaps():
 		pass
 	data_train, label_train = load_test_images()
 	data_test, label_test = load_test_images()
-	print "Saving training images ..."
-	for i in xrange(data_train.shape[0]):
+	print("Saving training images ...")
+	for i in range(data_train.shape[0]):
 		image = Image.fromarray(data_train[i].reshape(28, 28))
 		image.save("{}/{}_{}.bmp".format(train_dir, label_train[i], i))
-	print "Saving test images ..."
-	for i in xrange(data_test.shape[0]):
+	print("Saving test images ...")
+	for i in range(data_test.shape[0]):
 		image = Image.fromarray(data_test[i].reshape(28, 28))
 		image.save("{}/{}_{}.bmp".format(test_dir, label_test[i], i))

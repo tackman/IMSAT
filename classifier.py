@@ -13,7 +13,7 @@ class Object(object):
 
 def to_object(dict):
 	obj = Object()
-	for key, value in dict.iteritems():
+	for key, value in dict.items():
 		setattr(obj, key, value)
 	return obj
 
@@ -23,13 +23,13 @@ class Params():
 			self.from_dict(dict)
 
 	def from_dict(self, dict):
-		for attr, value in dict.iteritems():
+		for attr, value in dict.items():
 			if hasattr(self, attr):
 				setattr(self, attr, value)
 
 	def to_dict(self):
 		dict = {}
-		for attr, value in self.__dict__.iteritems():
+		for attr, value in self.__dict__.items():
 			if hasattr(value, "to_dict"):
 				dict[attr] = value.to_dict()
 			else:
@@ -37,8 +37,8 @@ class Params():
 		return dict
 
 	def dump(self):
-		for attr, value in self.__dict__.iteritems():
-			print "	{}: {}".format(attr, value)
+		for attr, value in self.__dict__.items():
+			print("	{}: {}".format(attr, value))
 
 class ClassifierParams(Params):
 	def __init__(self):
@@ -153,7 +153,7 @@ class Classifier():
 		y1.unchain_backward()
 		d = self.to_variable(self.get_unit_vector(np.random.normal(size=x.shape).astype(np.float32)))
 
-		for i in xrange(self.config.ip):
+		for i in range(self.config.ip):
 			y2 = self.classify(x + xi * d, apply_softmax=True)
 			kld = F.sum(self.compute_kld(y1, y2))
 			kld.backward()
