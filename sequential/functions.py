@@ -151,7 +151,7 @@ class gaussian_noise(Function):
 		self._function = "gaussian_noise"
 		self.std = std
 
-	def __call__(self, x, test=False):
+	def __call__(self, x):
 		if test == True:
 			return x
 		xp = cuda.get_array_module(x.data)

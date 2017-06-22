@@ -103,9 +103,9 @@ class Classifier():
 	def get_batchsize(self, x):
 		return x.shape[0]
 
-	def classify(self, x, test=False, apply_softmax=True, as_numpy=False):
+	def classify(self, x, apply_softmax=True, as_numpy=False):
 		x = self.to_variable(x)
-		p = self.classifier(x, test=test)
+		p = self.classifier(x)
 		if apply_softmax:
 			p = F.softmax(p)
 		if as_numpy:

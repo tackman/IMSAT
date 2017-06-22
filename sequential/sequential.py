@@ -151,11 +151,11 @@ class Sequential(object):
 			if isinstance(link, functions.dropout):
 				x = link(args[0] if x is None else x, train=not kwargs["test"])
 			elif isinstance(link, chainer.links.BatchNormalization):
-				x = link(args[0] if x is None else x, test=kwargs["test"])
+				x = link(args[0] if x is None else x)
 			elif isinstance(link, functions.gaussian_noise):
-				x = link(args[0] if x is None else x, test=kwargs["test"])
+				x = link(args[0] if x is None else x)
 			elif isinstance(link, Residual):
-				y = link(args[0] if x is None else x, test=kwargs["test"])
+				y = link(args[0] if x is None else x)
 				x = args[0] if x is None else x
 				x = y + x
 			else:

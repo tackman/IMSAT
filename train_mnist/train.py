@@ -23,7 +23,7 @@ test_images, test_labels = dataset.load_test_images()
 config = imsat.config
 
 def compute_accuracy(images, labels_true):
-	probs = F.softmax(imsat.classify(images, test=True, apply_softmax=True))
+	probs = F.softmax(imsat.classify(images, apply_softmax=True))
 	probs.unchain_backward()
 	probs = imsat.to_numpy(probs)
 	labels_predict = np.argmax(probs, axis=1)
