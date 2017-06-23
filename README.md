@@ -1,3 +1,6 @@
+- This repository is forked from https://github.com/musyoku/IMSAT
+- Updated code to run on Chainer2 / Python3
+
 ## Learning Discrete Representations via Information Maximizing Self Augmented Training
 
 - Code for the [paper](https://arxiv.org/abs/1702.08720)
