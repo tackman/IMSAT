@@ -41,7 +41,7 @@ class Layer(object):
 			print("	{}: {}".format(attr, value))
 
 class Convolution2D(Layer):
-	def __init__(self, in_channels, out_channels, ksize, stride=1, pad=0, initia_bias=0, nobias=False,  use_weightnorm=False):
+	def __init__(self, in_channels, out_channels, ksize, stride=1, pad=0, initial_bias=0, nobias=False,  use_weightnorm=False):
 		self._layer = "Convolution2D"
 		self.in_channels = in_channels
 		self.out_channels = out_channels

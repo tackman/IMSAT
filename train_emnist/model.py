@@ -56,16 +56,16 @@ else:
 
 	model.add(Convolution2D(1, 32, ksize=4, stride=2, pad=1))
 	model.add(Activation(config.nonlinearity))
-	model.add(BatchNormalization(32, use_cudnn=False))
+	model.add(BatchNormalization(32))
 	model.add(Convolution2D(32, 64, ksize=4, stride=2, pad=1))
 	model.add(Activation(config.nonlinearity))
-	model.add(BatchNormalization(64, use_cudnn=False))
+	model.add(BatchNormalization(64))
 	model.add(Convolution2D(64, 128, ksize=3, stride=2, pad=1))
 	model.add(Activation(config.nonlinearity))
-	model.add(BatchNormalization(128, use_cudnn=False))
+	model.add(BatchNormalization(128))
 	model.add(Convolution2D(128, 256, ksize=4, stride=2, pad=1))
 	model.add(Activation(config.nonlinearity))
-	model.add(BatchNormalization(256, use_cudnn=False))
+	model.add(BatchNormalization(256))
 	model.add(Linear(None, config.num_clusters))
 
 	params = {

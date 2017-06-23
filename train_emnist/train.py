@@ -29,7 +29,7 @@ def compute_accuracy(images, labels_true):
 	for n in range(20):
 		_images = images[n * num_data_in_segment:(n + 1) * num_data_in_segment]
 		_labelss_true = labels_true[n * num_data_in_segment:(n + 1) * num_data_in_segment]
-		probs = F.softmax(imsat.classify(_images, test=True, apply_softmax=True))
+		probs = F.softmax(imsat.classify(_images, apply_softmax=True))
 		probs.unchain_backward()
 		probs = imsat.to_numpy(probs)
 		labels_predict = np.argmax(probs, axis=1)
