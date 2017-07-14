@@ -1,4 +1,8 @@
+import matplotlib as mpl
+mpl.use('Agg')
+
 import numpy as np
+
 import os, sys, time, math, pylab
 import seaborn as sns
 sns.set(font_scale=2.5)
